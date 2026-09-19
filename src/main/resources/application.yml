@@ -1,0 +1,72 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: josh-jewellery-backend
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/josh_jewellery}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 300000
+      connection-timeout: 20000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:noreply@joshjewellery.com}
+    password: ${MAIL_PASSWORD:smtp_password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+# Security & JWT Configuration
+app:
+  admin:
+    email: ${ADMIN_EMAIL:admin@jyoshikamillennium.com}
+    password: ${ADMIN_PASSWORD:ChangeMe@123}
+    name: ${ADMIN_NAME:Jyoshika Millennium Admin}
+  jwt:
+    secret: ${JWT_SECRET:eW91cl9zdXBlcl9zZWNyZXRfa2V5X2Zvcl9qd3RfYXV0aGVudGljYXRpb25fMzJieXRlcw==}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000} # 24 Hours
+    refresh-expiration-ms: ${JWT_REFRESH_EXPIRATION_MS:604800000} # 7 Days
+
+
+# Razorpay Integration
+razorpay:
+  key-id: ${RAZORPAY_KEY_ID:rzp_test_key}
+  key-secret: ${RAZORPAY_KEY_SECRET:rzp_test_secret}
+  webhook-secret: ${RAZORPAY_WEBHOOK_SECRET:}
+
+# SpringDoc OpenAPI / Swagger Configuration
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: method

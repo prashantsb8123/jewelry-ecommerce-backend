@@ -1,0 +1,39 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: josh_jewellery_db
+    environment:
+      POSTGRES_DB: josh_jewellery
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "@Prashant2002"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d josh_jewellery"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: .
+    container_name: josh_jewellery_backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/josh_jewellery
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: "@Prashant2002"
+      ADMIN_EMAIL: admin@joshjewellery.com
+      ADMIN_PASSWORD: AdminPassword@123
+      ADMIN_NAME: Josh Jewellery Admin
+      JWT_SECRET: eW91cl9zdXBlcl9zZWNyZXRfa2V5X2Zvcl9qd3RfYXV0aGVudGljYXRpb25fMzJieXRlcw==
+      JWT_EXPIRATION_MS: 86400000
+      JWT_REFRESH_EXPIRATION_MS: 604800000
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
