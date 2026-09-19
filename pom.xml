@@ -18,7 +18,7 @@
     <description>Enterprise-grade Spring Boot 3 &amp; PostgreSQL Backend for Josh Jewellery</description>
 
     <properties>
-        <java.version>24</java.version>
+        <java.version>21</java.version>
         <jjwt.version>0.12.5</jjwt.version>
         <springdoc.version>2.5.0</springdoc.version>
         <flyway.version>10.10.0</flyway.version>
